@@ -1,0 +1,41 @@
+﻿@model BISecurityWithAuth.Models.HomeViewModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        @if (!SignInManager.IsSignedIn(User)) {
+            <h1 class="display-4">Welcome</h1>
+            <p><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a> with the credentials provided to get started</p>
+        } else {
+
+            <p>
+                <a asp-action="Create">Create New</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Model.Customer.Name BI Users
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.WindowsCredentials) {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Username })
+                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
